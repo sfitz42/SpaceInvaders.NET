@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInvaders.Core", "Space
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intel8080.Emulator", "..\.NET8080\Intel8080.Emulator\Intel8080.Emulator.csproj", "{A4EAA3C2-2CEE-4404-B84F-EA95E2966150}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{C02DC87F-D3CF-4CBF-98F4-06FE0C393161}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A4EAA3C2-2CEE-4404-B84F-EA95E2966150} = {C02DC87F-D3CF-4CBF-98F4-06FE0C393161}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CB65E80-8FCC-4589-A27B-06BFA76F6DFB}

@@ -1,4 +1,6 @@
 ﻿using Intel8080.Emulator;
+using SpaceInvaders.Core.Ports.Input;
+using SpaceInvaders.Core.Ports.Output;
 using System.Diagnostics;
 using System.Timers;
 
@@ -23,27 +25,63 @@ namespace SpaceInvaders.Core
 
         public MainMemory Memory { get; }
 
+        public InputPort0 InputPort0 { get; } = new();
+        public InputPort1 InputPort1 { get; } = new();
+        public InputPort2 InputPort2 { get; } = new();
+
+        public SoundOutput0 SoundOutput0 { get; } = new();
+        public SoundOutput1 SoundOutput1 { get; } = new();
+
         private readonly Timer _clock;
         private readonly Stopwatch _stopwatch;
 
+        private readonly ShiftOffset _shiftOffset;
+        private readonly ShiftRegisterIn _shiftRegisterIn;
+        private readonly ShiftRegisterOutput _shiftRegisterOutput;
+
+        private readonly WatchdogPort _watchdogPort = new();
+
         private Interrupt _nextInterrupt = Interrupt.MidFrame;
 
+        private double _vblank = 0;
         private double _lastTime = 0;
 
         public SpaceInvaders()
         {
-            Memory = new MainMemory();
-            Cpu = new CPU(Memory);
+            Memory = new();
+            Cpu = new(Memory);
 
-            _clock = new Timer
+            _shiftOffset = new();
+            _shiftRegisterIn = new(_shiftOffset);
+            _shiftRegisterOutput = new(_shiftRegisterIn);
+
+            AddDevices();
+
+            _clock = new()
             {
                 Enabled = false,
                 Interval = 1
             };
 
-            _stopwatch = new Stopwatch();
+            _stopwatch = new();
 
-            _clock.Elapsed += UpdateCPU;
+            _clock.Elapsed += new ElapsedEventHandler(UpdateCPU);
+        }
+
+        public void AddDevices()
+        {
+            var ioController = Cpu.IOController;
+
+            ioController.AddDevice(InputPort0, InputPort0.Port);
+            ioController.AddDevice(InputPort1, InputPort1.Port);
+            ioController.AddDevice(InputPort2, InputPort2.Port);
+            ioController.AddDevice(_shiftRegisterIn, ShiftRegisterIn.Port);
+
+            ioController.AddDevice(_shiftOffset, ShiftOffset.Port);
+            ioController.AddDevice(_shiftRegisterOutput, ShiftRegisterOutput.Port);
+            ioController.AddDevice(SoundOutput0, SoundOutput0.Port);
+            ioController.AddDevice(SoundOutput1, SoundOutput1.Port);
+            ioController.AddDevice(_watchdogPort, WatchdogPort.Port);
         }
 
         public void GenerateInterrupt()
@@ -69,7 +107,6 @@ namespace SpaceInvaders.Core
             var deltaTime = currentTime - _lastTime;
 
             var cycles = 2000 * deltaTime;
-            var vblank = 0L;
 
             while (cycles > 0)
             {
@@ -79,14 +116,14 @@ namespace SpaceInvaders.Core
 
                 var completedCycles = Cpu.Cycles - currentCycles;
 
-                vblank += completedCycles;
+                _vblank += completedCycles;
                 cycles -= completedCycles;
 
-                if (vblank >= VBlankPeriod)
+                if (_vblank >= VBlankPeriod)
                 {
                     GenerateInterrupt();
 
-                    vblank = 0;
+                    _vblank = 0;
                 }
             }
 

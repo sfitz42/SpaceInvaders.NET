@@ -6,7 +6,7 @@ using System.Timers;
 
 namespace SpaceInvaders.Core
 {
-    public class SpaceInvaders
+    public class ArcadeMachine
     {
         public enum Interrupt
         {
@@ -46,7 +46,7 @@ namespace SpaceInvaders.Core
         private double _vblank = 0;
         private double _lastTime = 0;
 
-        public SpaceInvaders()
+        public ArcadeMachine()
         {
             Memory = new();
             Cpu = new(Memory);

@@ -1,6 +1,9 @@
 ﻿using SpaceInvaders.Core;
+using SpaceInvaders.Core.Ports.Input;
 using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -8,7 +11,7 @@ using System.Windows.Threading;
 namespace SpaceInvaders.WPF
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction \ Initialisation logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -26,9 +29,11 @@ namespace SpaceInvaders.WPF
 
             _timer.Tick += UpdateScreen;
 
-            InitializeComponent();
-
             Loaded += OnLoad;
+            KeyDown += OnKeyDown;
+            KeyUp += OnKeyUp;
+
+            InitializeComponent();
         }
 
         public void OnLoad(object sender, RoutedEventArgs e)
@@ -40,33 +45,6 @@ namespace SpaceInvaders.WPF
 
             _timer.Start();
             _arcadeMachine.Run();
-        }
-
-        public void UpdateScreen(object? sender, EventArgs e)
-        {
-            var vram = _arcadeMachine.Memory.ReadVRAM();
-
-            Array.Reverse(vram);
-
-            DrawPixels(vram);
-        }
-
-        private void DrawPixels(byte[] pixels)
-        {
-            var bmp = BitmapSource.Create(
-                ArcadeMachine.ScreenWidth,
-                ArcadeMachine.ScreenHeight,
-                0,
-                0,
-                PixelFormats.BlackWhite,
-                null,
-                pixels,
-                ArcadeMachine.ScreenWidth / 8
-            );
-
-            var rotated = new TransformedBitmap(bmp, new RotateTransform(90));
-
-            MainView.Source = rotated;
         }
     }
 }

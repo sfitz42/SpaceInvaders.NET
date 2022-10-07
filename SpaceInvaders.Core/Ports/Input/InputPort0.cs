@@ -4,6 +4,13 @@ namespace SpaceInvaders.Core.Ports.Input
 {
     public class InputPort0 : IInputDevice
     {
+        public enum Input
+        {
+            Fire = 0x10,
+            Left = 0x20,
+            Right = 0x40
+        }
+
         public const int Port = 0x00;
 
         /**
@@ -24,6 +31,18 @@ namespace SpaceInvaders.Core.Ports.Input
         public byte Read()
         {
             return _data;
+        }
+
+        public void HandleInput(Input input, bool press)
+        {
+            var inputMask = (byte)input;
+
+            SetBit(press, inputMask);
+        }
+
+        private void SetBit(bool value, byte mask)
+        {
+            _data = (byte)(value ? (_data | mask) : (_data & ~mask));
         }
     }
 }

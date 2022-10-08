@@ -1,11 +1,6 @@
 ﻿using SpaceInvaders.Core;
-using SpaceInvaders.Core.Ports.Input;
 using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace SpaceInvaders.WPF
@@ -32,6 +27,8 @@ namespace SpaceInvaders.WPF
             Loaded += OnLoad;
             KeyDown += OnKeyDown;
             KeyUp += OnKeyUp;
+
+            LoadSounds();
 
             InitializeComponent();
         }

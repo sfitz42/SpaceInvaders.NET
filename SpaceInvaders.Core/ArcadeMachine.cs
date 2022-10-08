@@ -29,8 +29,7 @@ namespace SpaceInvaders.Core
         public InputPort1 InputPort1 { get; } = new();
         public InputPort2 InputPort2 { get; } = new();
 
-        public SoundOutput0 SoundOutput0 { get; } = new();
-        public SoundOutput1 SoundOutput1 { get; } = new();
+        public SoundDevice SoundDevice { get; } = new();
 
         private readonly Timer _clock;
         private readonly Stopwatch _stopwatch;
@@ -79,8 +78,8 @@ namespace SpaceInvaders.Core
 
             ioController.AddDevice(_shiftOffset, ShiftOffset.Port);
             ioController.AddDevice(_shiftRegisterOutput, ShiftRegisterOutput.Port);
-            ioController.AddDevice(SoundOutput0, SoundOutput0.Port);
-            ioController.AddDevice(SoundOutput1, SoundOutput1.Port);
+            ioController.AddDevice(SoundDevice.SoundOutput0, SoundOutput0.Port);
+            ioController.AddDevice(SoundDevice.SoundOutput1, SoundOutput1.Port);
             ioController.AddDevice(_watchdogPort, WatchdogPort.Port);
         }
 

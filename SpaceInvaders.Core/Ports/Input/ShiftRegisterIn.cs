@@ -1,4 +1,5 @@
 ﻿using Intel8080.Emulator.IO;
+using SpaceInvaders.Core.Ports.Output;
 
 namespace SpaceInvaders.Core.Ports.Input
 {

@@ -458,3 +458,8 @@ $RECYCLE.BIN/
 
 # SpaceInvader Rom files
 SpaceInvaders.Core/Roms
+SpaceInvaders.WPF/Roms
+
+# SpaceInvader Sound files
+SpaceInvaders.Core/Sounds
+SpaceInvaders.WPF/Sounds

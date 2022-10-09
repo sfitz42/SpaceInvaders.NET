@@ -36,7 +36,7 @@ namespace SpaceInvaders.WPF
         public void OnLoad(object sender, RoutedEventArgs e)
         {
             /* All elements will default to 0 (black) */
-            var pixels = new byte[ArcadeMachine.ScreenWidth * ArcadeMachine.ScreenHeight / 8];
+            var pixels = new int[ArcadeMachine.ScreenWidth * ArcadeMachine.ScreenHeight];
 
             DrawPixels(pixels);
 

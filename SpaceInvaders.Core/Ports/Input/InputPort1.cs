@@ -4,21 +4,17 @@ namespace SpaceInvaders.Core.Ports.Input
 {
     public class InputPort1 : IInputDevice
     {
+        public enum Input
+        {
+            Credit = 0x01,
+            OnePlayerStart = 0x04,
+            TwoPlayerStart = 0x02,
+            PlayerOneFire = 0x10,
+            PlayerOneLeft = 0x20,
+            PlayerOneRight = 0x40
+        }
+
         public const int Port = 0x01;
-
-        private const int CreditMask = 0x01;
-        private const int OnePlayerStartMask = 0x04;
-        private const int TwoPlayerStartMask = 0x02;
-        private const int FireMask = 0x10;
-        private const int LeftMask = 0x20;
-        private const int RightMask = 0x40;
-
-        public bool Credit { get => GetBit(CreditMask); set => SetBit(value, CreditMask); }
-        public bool OnePlayerStart { get => GetBit(OnePlayerStartMask); set => SetBit(value, OnePlayerStartMask); }
-        public bool TwoPlayerStart { get => GetBit(TwoPlayerStartMask); set => SetBit(value, TwoPlayerStartMask); }
-        public bool Fire { get => GetBit(FireMask); set => SetBit(value, FireMask); }
-        public bool Left { get => GetBit(LeftMask); set => SetBit(value, LeftMask); }
-        public bool Right { get => GetBit(RightMask); set => SetBit(value, RightMask); }
 
         /**
          * Default = 0x08 (0b0001000)
@@ -42,9 +38,11 @@ namespace SpaceInvaders.Core.Ports.Input
             return _data;
         }
 
-        private bool GetBit(byte mask)
+        public void HandleInput(Input input, bool press)
         {
-            return (_data & mask) == mask;
+            var inputMask = (byte)input;
+
+            SetBit(press, inputMask);
         }
 
         private void SetBit(bool value, byte mask)

@@ -10,4 +10,19 @@
     <ProjectReference Include="..\..\.NET8080\Intel8080.Emulator\Intel8080.Emulator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Roms\invaders.e">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Roms\invaders.f">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Roms\invaders.g">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Roms\invaders.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

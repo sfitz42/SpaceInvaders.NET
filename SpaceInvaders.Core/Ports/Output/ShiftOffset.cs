@@ -1,6 +1,6 @@
 ﻿using Intel8080.Emulator.IO;
 
-namespace SpaceInvaders.Core.Ports.Input
+namespace SpaceInvaders.Core.Ports.Output
 {
     internal class ShiftOffset : IOutputDevice
     {

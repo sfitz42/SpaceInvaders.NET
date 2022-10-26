@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceInvaders.Core", "SpaceInvaders.Core\SpaceInvaders.Core.csproj", "{3562B1F1-B296-4BD1-B8C7-9A8FE4C11134}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intel8080.Emulator", ".NET8080\Intel8080.Emulator\Intel8080.Emulator.csproj", "{A4EAA3C2-2CEE-4404-B84F-EA95E2966150}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intel8080.Emulator", "NET8080\Intel8080.Emulator\Intel8080.Emulator.csproj", "{A4EAA3C2-2CEE-4404-B84F-EA95E2966150}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceInvaders.WPF", "SpaceInvaders.WPF\SpaceInvaders.WPF.csproj", "{86AFDF94-14D2-4591-A5E2-EB3A83A79693}"
 EndProject

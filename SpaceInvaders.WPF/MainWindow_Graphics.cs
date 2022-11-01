@@ -64,8 +64,9 @@ namespace SpaceInvaders.WPF
             );
 
             var rotated = new TransformedBitmap(bmp, new RotateTransform(-90));
+            var resized = new TransformedBitmap(rotated, new ScaleTransform(DisplayScale, DisplayScale));
 
-            MainView.Source = rotated;
+            MainView.Source = resized;
         }
     }
 }

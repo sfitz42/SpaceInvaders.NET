@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace SpaceInvaders.WPF
 {
@@ -10,7 +11,9 @@ namespace SpaceInvaders.WPF
     /// </summary>
     public partial class MainWindow
     {
-        public void UpdateScreen(object? sender, EventArgs e)
+        public void UpdateScreen(object? sender, EventArgs e) => Dispatcher.BeginInvoke(HandleUpdate);
+
+        private void HandleUpdate()
         {
             var vram = _arcadeMachine.Memory.ReadVRAM();
 

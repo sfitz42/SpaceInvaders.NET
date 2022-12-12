@@ -1,6 +1,7 @@
 ﻿using Intel8080.Emulator;
 using SpaceInvaders.Core.Ports.Input;
 using SpaceInvaders.Core.Ports.Output;
+using System;
 using System.Diagnostics;
 using System.Timers;
 
@@ -30,6 +31,8 @@ namespace SpaceInvaders.Core
         public InputPort2 InputPort2 { get; } = new();
 
         public SoundDevice SoundDevice { get; } = new();
+
+        public event EventHandler DisplayUpdated = null!;
 
         private readonly Timer _clock;
         private readonly Stopwatch _stopwatch;
@@ -87,6 +90,9 @@ namespace SpaceInvaders.Core
         {
             Cpu.RaiseInterrupt((byte) _nextInterrupt);
 
+            if (_nextInterrupt == Interrupt.EndFrame)
+                OnDisplayUpdate(new EventArgs());
+
             _nextInterrupt = _nextInterrupt != Interrupt.MidFrame ?
                 Interrupt.MidFrame :
                 Interrupt.EndFrame;
@@ -129,6 +135,11 @@ namespace SpaceInvaders.Core
             _lastTime = currentTime;
 
             _clock.Start();
+        }
+
+        private void OnDisplayUpdate(EventArgs e)
+        {
+            DisplayUpdated?.Invoke(this, e);
         }
     }
 }

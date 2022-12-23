@@ -53,6 +53,8 @@ namespace SpaceInvaders.Core
             Memory = new();
             Cpu = new(Memory);
 
+            Cpu.Reset();
+
             _shiftOffset = new();
             _shiftRegisterIn = new(_shiftOffset);
             _shiftRegisterOutput = new(_shiftRegisterIn);

@@ -16,7 +16,10 @@ namespace SpaceInvaders.Core
         {
             get
             {
-                if (index >= MemorySize)
+                if (index >= 0x6000)
+                    return 0;
+
+                if (index >= MemorySize && index < 0x6000)
                     index -= RAMStart;
 
                 return _memory[index];

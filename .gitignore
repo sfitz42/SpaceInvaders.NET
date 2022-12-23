@@ -457,9 +457,7 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 # SpaceInvader Rom files
-SpaceInvaders.Core/Roms
-SpaceInvaders.WPF/Roms
+*/Roms
 
 # SpaceInvader Sound files
-SpaceInvaders.Core/Sounds
-SpaceInvaders.WPF/Sounds
+*/Sounds

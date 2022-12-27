@@ -15,6 +15,8 @@ public class SpaceInvaders
 
     public SpaceInvaders()
     {
+        var soundControler = new SoundController(_arcadeMachine);
+
         _machineThread = new Thread(() => _arcadeMachine.Run());
         _machineThread.Start();
 

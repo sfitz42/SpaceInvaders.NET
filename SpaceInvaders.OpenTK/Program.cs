@@ -1,10 +1,9 @@
-﻿namespace SpaceInvaders.OpenTK
+﻿namespace SpaceInvaders.OpenTK;
+
+internal class Program
 {
-    class Program
+    static void Main()
     {
-        static void Main()
-        {
-            var app = new SpaceInvaders();
-        }
+        var app = new SpaceInvaders();
     }
 }

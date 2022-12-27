@@ -55,22 +55,62 @@ public class SoundController
         AL.SourceStop(_sources[(int)SoundType.UFO]);
     }
 
+    private static (byte[], int channels, int bit, int rate) LoadWave(string path)
+    {
+        using var stream = new FileStream(path, FileMode.Open);
+        using var reader = new BinaryReader(stream);
+
+        // RIFF header
+        var signature = new string(reader.ReadChars(4));
+        if (signature != "RIFF")
+            throw new NotSupportedException("Specified stream is not a wave file.");
+
+        var riff_chunck_size = reader.ReadInt32();
+
+        var format = new string(reader.ReadChars(4));
+        if (format != "WAVE")
+            throw new NotSupportedException("Specified stream is not a wave file.");
+
+        // WAVE header
+        var format_signature = new string(reader.ReadChars(4));
+
+        if (format_signature != "fmt ")
+            throw new NotSupportedException("Specified wave file is not supported.");
+
+        var format_chunk_size = reader.ReadInt32();
+        var audio_format = reader.ReadInt16();
+        var num_channels = reader.ReadInt16();
+        var sample_rate = reader.ReadInt32();
+        var byte_rate = reader.ReadInt32();
+        var block_align = reader.ReadInt16();
+        var bits_per_sample = reader.ReadInt16();
+
+        var data_signature = new string(reader.ReadChars(4));
+
+        int data_chunk_size = reader.ReadInt32();
+
+        return (reader.ReadBytes(data_chunk_size), num_channels, bits_per_sample, sample_rate);
+    }
+
+    private static ALFormat GetSoundFormat(int channels, int bits) => channels switch
+    {
+        1 => bits == 8 ? ALFormat.Mono8 : ALFormat.Mono16,
+        2 => bits == 8 ? ALFormat.Stereo8 : ALFormat.Stereo16,
+        _ => throw new NotSupportedException("The specified sound format is not supported."),
+    };
+   
     private void BufferSoundData()
     {
         for (var sound = 0; sound < _soundPaths.Length; sound++)
         {
-            var pcm = File.ReadAllBytes(_soundPaths[sound]);
+            (var pcm, var channels, var bits, var rate) = LoadWave(_soundPaths[sound]);
+
+            AL.BufferData(_buffers[sound], GetSoundFormat(channels, bits), pcm, rate);
+            AL.Source(_sources[sound], ALSourcei.Buffer, _buffers[sound]);
 
             if (sound == (int) SoundType.UFO)
             {
-                AL.BufferData(_buffers[sound], ALFormat.Mono16, pcm, 44100);
-                AL.Source(_sources[sound], ALSourcei.Buffer, _buffers[sound]);
                 AL.Source(_sources[sound], ALSourceb.Looping, true);
-            }
-            else
-            {
-                AL.BufferData(_buffers[sound], ALFormat.Mono8, pcm, 11025);
-                AL.Source(_sources[sound], ALSourcei.Buffer, _buffers[sound]);
             }
         }
     }

@@ -7,22 +7,32 @@ namespace SpaceInvaders.OpenTK;
 
 public class SpaceInvaders
 {
-    private const int DisplayWidth = ArcadeMachine.ScreenHeight * 2;
-    private const int DisplayHeight = ArcadeMachine.ScreenWidth * 2;
-
     private readonly ArcadeMachine _arcadeMachine = new();
     private readonly Thread _machineThread;
+
+    private readonly int _displayWidth = ArcadeMachine.ScreenHeight;
+    private readonly int _displayHeight = ArcadeMachine.ScreenWidth;
 
     public SpaceInvaders()
     {
         var soundControler = new SoundController(_arcadeMachine);
 
         _machineThread = new Thread(() => _arcadeMachine.Run());
+    }
+
+    public SpaceInvaders(int displayScale) : this()
+    {
+        _displayHeight *= displayScale;
+        _displayWidth *= displayScale;
+    }
+
+    public void Run()
+    {
         _machineThread.Start();
 
         var nativeWindowSettings = new NativeWindowSettings()
         {
-            Size = new Vector2i(DisplayWidth, DisplayHeight),
+            Size = new Vector2i(_displayWidth, _displayHeight),
             Title = "SpaceInvaders.NET",
             WindowBorder = WindowBorder.Fixed,
             Flags = ContextFlags.ForwardCompatible

@@ -44,6 +44,20 @@ The following sound files need to be placed inside SpaceInvaders.WPF\Sounds:
 |8.wav|UFO Hit|
 
 ### Running Emulator
+#### OpenTK
+The OpenTK frontend (OpenGL / OpenAL) can be ran on Windows / MacOS / Linux using the following commands:
+```ps
+cd SpaceInvaders.OpenTK
+dotnet run
+```
+
+Change display scale (default 1x) by providing the scale argument
+```
+dotnet run -- -s 2
+dotnet run -- --displayScale 2
+```
+
+#### WPF
 The WPF implementation of the emulator can be started using the following commands:
 
 **Note:** This can only be ran on a Windows based machine
@@ -55,3 +69,5 @@ dotnet run
 ## Useful Links / Resources
 - [Computer Archeology - Space Invaders](https://computerarcheology.com/Arcade/SpaceInvaders)
 - [superzazu/invaders](https://github.com/superzazu/invaders) - Useful for colour mappings
+- [OpenTK (OpenGL Examples)](https://github.com/opentk/LearnOpenTK)
+- [OpenTK (OpenAL Example)](https://github.com/mono/opentk/blob/e5859900d3a41885e03be46b492bfd382442f130/Source/Examples/OpenAL/1.1/Playback.cs) - Useful WAV file method

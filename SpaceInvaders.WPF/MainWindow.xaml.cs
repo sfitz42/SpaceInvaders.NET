@@ -12,7 +12,7 @@ namespace SpaceInvaders.WPF
         private const int DisplayWidth = ArcadeMachine.ScreenHeight * DisplayScale;
         private const int DisplayHeight = ArcadeMachine.ScreenWidth * DisplayScale;
 
-        private readonly ArcadeMachine _arcadeMachine = new();
+        private readonly ArcadeMachine _arcadeMachine = new("Roms");
 
         public MainWindow()
         {

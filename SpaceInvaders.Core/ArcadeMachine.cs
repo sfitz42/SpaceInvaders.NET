@@ -24,7 +24,7 @@ namespace SpaceInvaders.Core
 
         public CPU Cpu { get; }
 
-        public MainMemory Memory { get; }
+        public MainMemory Memory { get; } = new();
 
         public InputPort0 InputPort0 { get; } = new();
         public InputPort1 InputPort1 { get; } = new();
@@ -50,7 +50,6 @@ namespace SpaceInvaders.Core
 
         public ArcadeMachine()
         {
-            Memory = new();
             Cpu = new(Memory);
 
             Cpu.Reset();
@@ -70,6 +69,11 @@ namespace SpaceInvaders.Core
             _stopwatch = new();
 
             _clock.Elapsed += new ElapsedEventHandler(UpdateCPU);
+        }
+
+        public ArcadeMachine(string romPath) : this()
+        {
+            Memory.LoadRomsFromFile(romPath);
         }
 
         public void AddDevices()

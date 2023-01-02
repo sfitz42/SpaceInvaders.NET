@@ -2,9 +2,9 @@
 {
     public enum RomBank
     {
-        INVADER_H,
-        INVADER_G,
-        INVADER_F,
-        INVADER_E,
+        INVADERS_H,
+        INVADERS_G,
+        INVADERS_F,
+        INVADERS_E,
     }
 }

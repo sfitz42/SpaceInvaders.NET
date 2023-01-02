@@ -18,8 +18,14 @@ setModuleImports('main.js', {
 
 const config = getConfig();
 const exports = await getAssemblyExports(config.mainAssemblyName);
-const text = exports.MyClass.Greeting();
-console.log(text);
 
-document.getElementById('out').innerHTML = text;
 await dotnet.run();
+
+function start() {
+    Methods.StartGame();
+}
+
+const startButton = document.querySelector('#startButton');
+startButton.addEventListener('click', start, false);
+
+export const Methods = exports.Program;

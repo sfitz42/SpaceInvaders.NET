@@ -12,8 +12,18 @@
 </head>
 
 <body>
-  <span id="out"></span>
-  <script type='module' src="./main.js"></script>
+    <div style="text-align: center;">
+        <div>
+            <canvas id="gameDisplay"></canvas>
+        </div>
+        <div>
+            <input type="button" id="startButton" value="Start" />
+            <input type="file" id="romSelect" name="romSelect" multiple />
+        </div>
+    </div>
+    <script type='module' src="./main.js"></script>
+    <script type='module' src="./rom-upload.js"></script>
+    <script type='module' src="./webgl.js"></script>
 </body>
 
 </html>

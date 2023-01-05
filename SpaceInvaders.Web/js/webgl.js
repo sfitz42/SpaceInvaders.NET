@@ -132,8 +132,6 @@ function initTexture() {
 }
 
 function updateTexture(vram) {
-    // const vram = Methods.GetVRAM();
-
     const totalBytes = width * height / 8;
 
     const pixelData = new Uint8Array(224 * 256 * 4);
@@ -181,10 +179,6 @@ function updateTexture(vram) {
     }
 
     gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixelData);
-
-    console.log(totalBytes);
-    console.log(pixelData.length);
-    console.log(vram);
 }
 
 init();

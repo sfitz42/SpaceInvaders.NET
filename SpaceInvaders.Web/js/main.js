@@ -28,4 +28,12 @@ function start() {
 const startButton = document.querySelector('#startButton');
 startButton.addEventListener('click', start, false);
 
+window.addEventListener("keydown", (event) => {
+    Methods.SetKey(event.keyCode, true);
+});
+
+window.addEventListener("keyup", (event) => {
+    Methods.SetKey(event.keyCode, false);
+});
+
 export const Methods = exports.Program;

@@ -1,7 +1,7 @@
 using SpaceInvaders.Core;
+using SpaceInvaders.Web;
 using System;
 using System.Runtime.InteropServices.JavaScript;
-using System.Threading;
 using System.Threading.Tasks;
 
 public partial class Program
@@ -35,6 +35,23 @@ public partial class Program
     {
         _machine.DisplayUpdated += TriggerUpdate;
         _machine.Run();
+    }
+
+    [JSExport]
+    internal static void SetKey(int key, bool pressed)
+    {
+        var port0Mapping = InputMappings.InputPort0Mapping;
+        var port1Mapping = InputMappings.InputPort1Mapping;
+        var port2Mapping = InputMappings.InputPort2Mapping;
+
+        if (port0Mapping.ContainsKey(key))
+            _machine.InputPort0.HandleInput(port0Mapping[key], pressed);
+
+        if (port1Mapping.ContainsKey(key))
+            _machine.InputPort1.HandleInput(port1Mapping[key], pressed);
+
+        if (port2Mapping.ContainsKey(key))
+            _machine.InputPort2.HandleInput(port2Mapping[key], pressed);
     }
 
     [JSImport("draw", "webgl")]

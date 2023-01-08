@@ -1,5 +1,29 @@
-﻿const width = 256;
-const height = 224;
+﻿/**
+ * @constant
+ * @type {number}
+ * @default
+ * 
+ * Width of Space Invaders arcade display in pixels (before rotation).
+ * 
+ * Note: Original Space Invaders is rotated in cabinet anti-clockwise.
+ */
+const screenWidth = 256;
+
+/**
+ * @constant
+ * @type {number}
+ * @default
+ * 
+ * Height of Space Invaders arcade display in pixels (before rotation).
+ * 
+ * Note: Original Space Invaders is rotated in cabinet anti-clockwise.
+ */
+const screenHeight = 224;
+
+const canvas = document.querySelector('#gameDisplay');
+
+/** @type {WebGLRenderingContext} */
+const gl = canvas.getContext('webgl');
 
 const vertShaderSource = `
 attribute vec3 aPos;
@@ -34,14 +58,6 @@ const vertIndices = new Uint16Array([
     1, 2, 3
 ]);
 
-const canvas = document.querySelector('#gameDisplay');
-
-canvas.width = height * 2;
-canvas.height = width * 2;
-
-/** @type {WebGLRenderingContext} */
-const gl = canvas.getContext('webgl');
-
 let vertexBuffer;
 let elementBuffer;
 
@@ -50,17 +66,7 @@ function init() {
     initTexture();
     initBuffers();
 
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-}
-
-export function draw(vram) {
-    updateTexture(vram);
-
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    gl.drawElements(gl.TRIANGLES, vertIndices.length, gl.UNSIGNED_SHORT, 0);
+    draw();
 }
 
 function initBuffers() {
@@ -107,7 +113,7 @@ function compileShader(src, type) {
 }
 
 function initTexture() {
-    const pixelData = new Uint8Array(224 * 256 * 4);
+    const pixelData = new Uint8Array(screenWidth * screenHeight * 4);
 
     for (let i = 0; i < pixelData.length; i += 4) {
         pixelData[i + 3] = 0xFF;
@@ -115,11 +121,10 @@ function initTexture() {
 
     const handle = gl.createTexture();
 
-    // use texture
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, handle);
 
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixelData);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, screenWidth, screenHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixelData);
 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -131,10 +136,18 @@ function initTexture() {
     gl.uniform1i(fragmentSamplerUniform, 0);
 }
 
-function updateTexture(vram) {
-    const totalBytes = width * height / 8;
+/**
+ * Updates WebGL texture using VRAM contents passed from
+ * WASM module.
+ * 
+ * Intended to be called from WASM module.
+ * 
+ * @param {Uint8Array} vram - unsigned byte array buffer containing display pixels
+ */
+export function updateTexture(vram) {
+    const totalBytes = screenWidth * screenHeight / 8;
 
-    const pixelData = new Uint8Array(224 * 256 * 4);
+    const pixelData = new Uint8Array(screenWidth * screenHeight * 4);
 
     for (let i = 0; i < totalBytes; i++) {
         let currByte = vram[i];
@@ -147,28 +160,10 @@ function updateTexture(vram) {
             const x = i * 8 % 256;
             const y = i * 8 / 256;
 
-            let r, g, b;
+            let [r, g, b] = [0x00, 0x00, 0x00];
 
             if (pixelSet) {
-                // Set default pixel colour (white)
-                r = 0xFF;
-                g = 0xFF;
-                b = 0xFF;
-
-                // Set pixel colour to red
-                if (x >= 192 && x < 224)
-                {
-                    r = 0xFF;
-                    g = 0x00;
-                    b = 0x00;
-                }
-
-                // Set pixel colour to green
-                if ((x >= 16 && x <= 72) || (x <= 16 && y >= 16 && y <= 134)) {
-                    r = 0x00;
-                    g = 0xFF;
-                    b = 0x00;
-                }
+                [r, g, b] = getRGBValues(x, y);
             }
 
             pixelData[index] = r;
@@ -178,7 +173,55 @@ function updateTexture(vram) {
         }
     }
 
-    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixelData);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, screenWidth, screenHeight, gl.RGBA, gl.UNSIGNED_BYTE, pixelData);
+
+    draw();
+}
+
+/**
+ * Calculates RGB colour data for the current pixel based
+ * on the x, y coords.
+ * 
+ * Colour is calculated as white (0xFFFFFF) by default.
+ * 
+ * @param {number} x x coordinate of current pixel.
+ * @param {number} y y coordinate of current pixel.
+ * @returns Array containing RGB colour data for current pixel.
+ */
+function getRGBValues(x, y) {
+    let r, g, b;
+
+    // Set default pixel colour (white)
+    r = 0xFF;
+    g = 0xFF;
+    b = 0xFF;
+
+    // Set pixel colour to red
+    if (x >= 192 && x < 224)
+    {
+        r = 0xFF;
+        g = 0x00;
+        b = 0x00;
+    }
+
+    // Set pixel colour to green
+    if ((x >= 16 && x <= 72) || (x <= 16 && y >= 16 && y <= 134)) {
+        r = 0x00;
+        g = 0xFF;
+        b = 0x00;
+    }
+
+    return [ r, g, b ];
+}
+
+/**
+ * Triggers WebGL vert and texture drawing.
+ */
+function draw() {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.drawElements(gl.TRIANGLES, vertIndices.length, gl.UNSIGNED_SHORT, 0);
 }
 
 init();

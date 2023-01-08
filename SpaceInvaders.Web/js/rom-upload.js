@@ -1,8 +1,15 @@
-﻿import { Methods } from './main.js'
+﻿import { methods } from './main.js'
 
 const fileUpload = document.querySelector('#romSelect');
 fileUpload.addEventListener('change', processRoms, false);
 
+/**
+ * Asynchronously reads file selected by user into an
+ * ArrayBuffer.
+ * 
+ * @param {File} file File to be read into ArrayBuffer
+ * @returns {Promise} Promise object that represents file ArrayBuffer
+ */
 function readRomAsync(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -17,6 +24,14 @@ function readRomAsync(file) {
     })
 }
 
+/**
+ * Reads ROM files selected in file input into unsigned
+ * byte array buffer.
+ * 
+ * Returned buffer is then passed to WASM LoadRom method.
+ * 
+ * @param {Event} e - Fired HTMLElement change event
+ */
 async function processRoms(e) {
     const files = e.target.files;
 
@@ -25,9 +40,6 @@ async function processRoms(e) {
 
         const data = new Uint8Array(await readRomAsync(file));
 
-        console.log(name);
-        console.log(data);
-
-        Methods.LoadRom(name, data);
+        methods.LoadRom(name, data);
     }
 }

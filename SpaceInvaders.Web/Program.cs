@@ -38,7 +38,7 @@ public partial class Program
     }
 
     [JSExport]
-    internal static void SetKey(int key, bool pressed)
+    internal static void SetKey(string key, bool pressed)
     {
         var port0Mapping = InputMappings.InputPort0Mapping;
         var port1Mapping = InputMappings.InputPort1Mapping;
@@ -54,8 +54,8 @@ public partial class Program
             _machine.InputPort2.HandleInput(port2Mapping[key], pressed);
     }
 
-    [JSImport("draw", "webgl")]
-    internal static partial void _draw(byte[] vram);
+    [JSImport("updateTexture", "webgl")]
+    internal static partial void _updateTexture(byte[] vram);
 
-    private static void TriggerUpdate(object sender, EventArgs e) => _draw(_machine.Memory.ReadVRAM());
+    private static void TriggerUpdate(object sender, EventArgs e) => _updateTexture(_machine.Memory.ReadVRAM());
 }

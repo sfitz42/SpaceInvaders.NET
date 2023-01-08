@@ -21,19 +21,4 @@ const exports = await getAssemblyExports(config.mainAssemblyName);
 
 await dotnet.run();
 
-function start() {
-    Methods.StartGame();
-}
-
-const startButton = document.querySelector('#startButton');
-startButton.addEventListener('click', start, false);
-
-window.addEventListener("keydown", (event) => {
-    Methods.SetKey(event.keyCode, true);
-});
-
-window.addEventListener("keyup", (event) => {
-    Methods.SetKey(event.keyCode, false);
-});
-
-export const Methods = exports.Program;
+export const methods = exports.Program;

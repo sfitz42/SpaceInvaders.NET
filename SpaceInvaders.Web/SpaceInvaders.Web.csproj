@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <WasmExtraFilesToDeploy Include="index.html" />
+    <WasmExtraFilesToDeploy Include="main.css" />
     <WasmExtraFilesToDeploy Include="js/*" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,27 @@
+body {
+    font-family: 'Helvetica Neue';
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 50%;
+    margin: 0 auto;
+}
+
+#romUpload {
+    display: none;
+}
+
+.controls {
+    margin: 0 auto;
+}
+
+.controls td:first-child {
+    font-weight: bold;
+}
+
+footer {
+    padding-top: 20px;
+    text-align: center;
+}

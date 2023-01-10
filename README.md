@@ -5,9 +5,10 @@ Core Intel 8080 CPU emulation has been built in [NET8080](https://github.com/sfi
 
 ## Building
 ### Requirements
-- Windows
 - Git
 - [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download)
+- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download)
+- dotnet wasm-tools workload
 - [NET8080](https://github.com/sfitz42/NET8080.git) (included as submodule)
 - Space Invaders ROM files (not provided in repo):
     - invaders.h
@@ -18,19 +19,21 @@ Core Intel 8080 CPU emulation has been built in [NET8080](https://github.com/sfi
 
 ```ps
 git clone https://github.com/sfitz42/SpaceInvaders.NET.git --recurse-submodules
+dotnet workload install wasm-tools
 cd SpaceInvaders.NET
 dotnet build
 ```
 
-## Emulator
-### Installing Game Files
-The following ROM files need to be placed inside SpaceInvaders.WPF\Roms:
+## Providing Game Files
+ROM files in the WASM port are selected by the user at runtime via upload dialog.
+
+The following ROM files need to be placed inside SpaceInvaders.OpenTK/Roms:
 - invaders.h
 - invaders.g
 - invaders.f
 - invaders.e
 
-The following sound files need to be placed inside SpaceInvaders.WPF\Sounds:
+The following sound files need to be placed inside SpaceInvaders.OpenTK/Sounds:
 |File name|Sound Type|
 |---------|----------|
 |0.wav|UFO (looping)|
@@ -43,28 +46,35 @@ The following sound files need to be placed inside SpaceInvaders.WPF\Sounds:
 |7.wav|Fleet Movement 4|
 |8.wav|UFO Hit|
 
-### Running Emulator
-#### OpenTK
+## Running Emulator
+### OpenTK
 The OpenTK frontend (OpenGL / OpenAL) can be ran on Windows / MacOS / Linux using the following commands:
 ```ps
 cd SpaceInvaders.OpenTK
 dotnet run
 ```
 
-Change display scale (default 1x) by providing the scale argument
+Change display scale (default 1x) by providing the scale argument:
 ```
-dotnet run -- -s 2
-dotnet run -- --displayScale 2
+dotnet run -s 2
+dotnet run --displayScale 2
 ```
 
-#### WPF
-The WPF implementation of the emulator can be started using the following commands:
+Users on Windows will also need to install OpenAL.
 
-**Note:** This can only be ran on a Windows based machine
+### Web Browser (WASM)
+The web assembly port has been deployed to Netlify. This can be accessed on the following URL:
+
+https://space-invaders-net.netlify.app
+
+The port can also be ran on a local server by executing the following commands:
+
 ```ps
-cd SpaceInvaders.WPF
+cd SpaceInvaders.Web
 dotnet run
 ```
+
+**Note**: Audio support has not yet been implemented
 
 ## Useful Links / Resources
 - [Computer Archeology - Space Invaders](https://computerarcheology.com/Arcade/SpaceInvaders)

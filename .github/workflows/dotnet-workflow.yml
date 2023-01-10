@@ -22,5 +22,5 @@ jobs:
     - name: Upload WASM AppBundle artifact
       uses: actions/upload-artifact@v3
       with:
-        name: wasm_app_bundle
+        name: invaders-app-bundle
         path: ./SpaceInvaders.Web/bin/Release/net7.0/browser-wasm/AppBundle/

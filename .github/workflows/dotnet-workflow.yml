@@ -24,3 +24,22 @@ jobs:
       with:
         name: invaders-app-bundle
         path: ./SpaceInvaders.Web/bin/Release/net7.0/browser-wasm/AppBundle/
+  deploy:
+    runs-on: ubuntu-22.04
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Download AppBundle artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: invaders-app-bundle
+        path: ./dist/
+    - name: Netlify Deploy
+      uses: nwtgck/actions-netlify@v1.2
+      with:
+        publish-dir: './dist'
+        production-deploy: true
+        deploy-message: "Deploy from GitHub Actions"
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

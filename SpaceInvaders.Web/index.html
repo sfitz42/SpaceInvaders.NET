@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>SpaceInvaders.NET WASM</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="modulepreload" href="./main.js" />
+  <link rel="modulepreload" href="./dotnet.js" />
+  <link rel="stylesheet" href="./main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arimo&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="content" style="text-align: center;">
+        <h1>SpaceInvaders.NET</h1>
+        <div>
+            <canvas width="448" height="512" id="gameDisplay"></canvas>
+        </div>
+        <div>
+            <button id="romSelect">Select ROMs</button>
+            <input type="file" id="romUpload" name="romUpload" multiple />
+        </div>
+        <div class="container">
+            <div>
+                <h2>Instructions</h2>
+                <p>Upload the four Space Invaders ROM files by using the above button.</p>
+                <p>The emulator will automatically start when all four have been uploaded.</p>
+            </div>
+            <div>
+                <h2>ROM Status</h2>
+                <ul style="padding: 0; list-style: none;">
+                    <li>invaders.h <i id="INVADERS_H_Status" class="bi bi-exclamation-diamond-fill"></i></li>
+                    <li>invaders.g <i id="INVADERS_G_Status" class="bi bi-exclamation-diamond-fill"></i></li>
+                    <li>invaders.f <i id="INVADERS_F_Status" class="bi bi-exclamation-diamond-fill"></i></li>
+                    <li>invaders.e <i id="INVADERS_E_Status" class="bi bi-exclamation-diamond-fill"></i></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <h2>Controls</h2>
+            <table class="controls">
+                <tr>
+                    <th>Control</th>
+                    <th>Mapped Key</th>
+                </tr>
+                <tr>
+                    <td>Left</td>
+                    <td>Left Arrow</td>
+                </tr>
+                <tr>
+                    <td>Right</td>
+                    <td>Right Arrow</td>
+                </tr>
+                <tr>
+                    <td>Fire</td>
+                    <td>Space</td>
+                </tr>
+                <tr>
+                    <td>Start 1P</td>
+                    <td>Enter</td>
+                </tr>
+                <tr>
+                    <td>Start 2P</td>
+                    <td>Backspace</td>
+                </tr>
+                <tr>
+                    <td>Add Credit</td>
+                    <td>C</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <footer><a href="https://github.com/sfitz42/SpaceInvaders.NET"><i style="font-size: 2em; color: black;" class="bi bi-github"></i></a></footer>
+    <script type='module' src="./main.js"></script>
+    <script type='module' src="./rom-upload.js"></script>
+    <script type='module' src="./webgl.js"></script>
+    <script type='module' src="./input.js"></script>
+</body>
+</html>

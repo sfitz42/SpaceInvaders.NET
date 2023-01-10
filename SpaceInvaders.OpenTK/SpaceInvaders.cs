@@ -7,7 +7,7 @@ namespace SpaceInvaders.OpenTK;
 
 public class SpaceInvaders
 {
-    private readonly ArcadeMachine _arcadeMachine = new();
+    private readonly ArcadeMachine _arcadeMachine = new("Roms");
     private readonly Thread _machineThread;
 
     private readonly int _displayWidth = ArcadeMachine.ScreenHeight;

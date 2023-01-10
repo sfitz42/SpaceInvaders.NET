@@ -1,4 +1,5 @@
 ﻿using Intel8080.Emulator;
+using System;
 using System.IO;
 
 namespace SpaceInvaders.Core
@@ -10,7 +11,7 @@ namespace SpaceInvaders.Core
         public const int VideoMemoryStart = 0x2400;
         public const int VideoMemoryEnd = 0x4000;
 
-        private readonly byte[] _memory;
+        private readonly byte[] _memory = new byte[MemorySize];
 
         public byte this[int index]
         {
@@ -33,24 +34,33 @@ namespace SpaceInvaders.Core
 
         public MainMemory()
         {
-            _memory = new byte[MemorySize];
-
-            LoadRom("Roms/invaders.h", 0x0000);
-            LoadRom("Roms/invaders.g", 0x0800);
-            LoadRom("Roms/invaders.f", 0x1000);
-            LoadRom("Roms/invaders.e", 0x1800);
-        }
-
-        private void LoadRom(string path, int offset = 0x0000)
-        {
-            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-            fs.Read(_memory, offset, (int)fs.Length);
         }
 
         public byte[] ReadVRAM()
         {
             return _memory[VideoMemoryStart..VideoMemoryEnd];
+        }
+
+        public void LoadRomFromArray(RomBank romBank, byte[] rom)
+        {
+            var offset = (int)romBank * 0x0800;
+
+            Array.Copy(rom, 0, _memory, offset, rom.Length);
+        }
+
+        public void LoadRomsFromFile(string romPath)
+        {
+            LoadRomFromFileSystem(Path.Combine(romPath, "invaders.h"), 0x0000);
+            LoadRomFromFileSystem(Path.Combine(romPath, "invaders.g"), 0x0800);
+            LoadRomFromFileSystem(Path.Combine(romPath, "invaders.f"), 0x1000);
+            LoadRomFromFileSystem(Path.Combine(romPath, "invaders.e"), 0x1800);
+        }
+
+        private void LoadRomFromFileSystem(string path, int offset = 0x0000)
+        {
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+            fs.Read(_memory, offset, (int)fs.Length);
         }
     }
 }

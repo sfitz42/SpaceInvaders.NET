@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+    <WasmMainJSPath>js/main.js</WasmMainJSPath>
+    <OutputType>Exe</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <WasmExtraFilesToDeploy Include="index.html" />
+    <WasmExtraFilesToDeploy Include="main.css" />
+    <WasmExtraFilesToDeploy Include="js/*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpaceInvaders.Core\SpaceInvaders.Core.csproj" />
+  </ItemGroup>
+</Project>

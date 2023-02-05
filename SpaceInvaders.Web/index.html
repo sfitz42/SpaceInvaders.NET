@@ -23,15 +23,53 @@
         <div>
             <button id="romSelect">Select ROMs</button>
             <input type="file" id="romUpload" name="romUpload" multiple />
+            <button id="soundSelect">Select sounds</button>
+            <input type="file" id="soundUpload" name="soundUpload" multiple />
         </div>
         <div class="container">
             <div>
                 <h2>Instructions</h2>
-                <p>Upload the four Space Invaders ROM files by using the above button.</p>
-                <p>The emulator will automatically start when all four have been uploaded.</p>
+                <p>Select Space Invaders ROM files</p>
+                <p><strong>Optional:</strong> Select Space Invaders sound files to enable sound</p>
+                <p>The emulator will automatically start when all ROMs have been uploaded.</p>
             </div>
             <div>
-                <h2>ROM Status</h2>
+                <h2>Controls</h2>
+                <table class="controls">
+                    <tr>
+                        <th>Control</th>
+                        <th>Mapped Key</th>
+                    </tr>
+                    <tr>
+                        <td>Left</td>
+                        <td>Left Arrow</td>
+                    </tr>
+                    <tr>
+                        <td>Right</td>
+                        <td>Right Arrow</td>
+                    </tr>
+                    <tr>
+                        <td>Fire</td>
+                        <td>Space</td>
+                    </tr>
+                    <tr>
+                        <td>Start 1P</td>
+                        <td>Enter</td>
+                    </tr>
+                    <tr>
+                        <td>Start 2P</td>
+                        <td>Backspace</td>
+                    </tr>
+                    <tr>
+                        <td>Add Credit</td>
+                        <td>C</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <h2>Required ROMs</h2>
                 <ul style="padding: 0; list-style: none;">
                     <li>invaders.h <i id="INVADERS_H_Status" class="bi bi-exclamation-diamond-fill"></i></li>
                     <li>invaders.g <i id="INVADERS_G_Status" class="bi bi-exclamation-diamond-fill"></i></li>
@@ -39,44 +77,28 @@
                     <li>invaders.e <i id="INVADERS_E_Status" class="bi bi-exclamation-diamond-fill"></i></li>
                 </ul>
             </div>
-        </div>
-        <div>
-            <h2>Controls</h2>
-            <table class="controls">
-                <tr>
-                    <th>Control</th>
-                    <th>Mapped Key</th>
-                </tr>
-                <tr>
-                    <td>Left</td>
-                    <td>Left Arrow</td>
-                </tr>
-                <tr>
-                    <td>Right</td>
-                    <td>Right Arrow</td>
-                </tr>
-                <tr>
-                    <td>Fire</td>
-                    <td>Space</td>
-                </tr>
-                <tr>
-                    <td>Start 1P</td>
-                    <td>Enter</td>
-                </tr>
-                <tr>
-                    <td>Start 2P</td>
-                    <td>Backspace</td>
-                </tr>
-                <tr>
-                    <td>Add Credit</td>
-                    <td>C</td>
-                </tr>
-            </table>
+            <div id="RequiredSounds">
+                <h2>Required Sounds</h2>
+                <div>
+                    <ul style="padding: 0; list-style: none;">
+                        <li id="Status_0_WAV">UFO (0.wav)</li>
+                        <li id="Status_1_WAV">Fire (1.wav)</li>
+                        <li id="Status_2_WAV">Death (2.wav)</li>
+                        <li id="Status_3_WAV">Hit (3.wav)</li>
+                        <li id="Status_4_WAV">Fleet Move 1 (4.wav)</li>
+                        <li id="Status_5_WAV">Fleet Move 2 (5.wav)</li>
+                        <li id="Status_6_WAV">Fleet Move 3 (6.wav)</li>
+                        <li id="Status_7_WAV">Fleet Move 4 (7.wav)</li>
+                        <li id="Status_8_WAV">UFO Hit (8.wav)</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <footer><a href="https://github.com/sfitz42/SpaceInvaders.NET"><i style="font-size: 2em; color: black;" class="bi bi-github"></i></a></footer>
     <script type='module' src="./main.js"></script>
     <script type='module' src="./rom-upload.js"></script>
+    <script type='module' src="./sound.js"></script>
     <script type='module' src="./webgl.js"></script>
     <script type='module' src="./input.js"></script>
 </body>

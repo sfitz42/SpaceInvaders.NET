@@ -1,4 +1,5 @@
 ﻿import { methods } from './main.js'
+import { readFileAsync } from './utilites.js'
 
 const selectButton = document.querySelector('#romSelect');
 const fileUpload = document.querySelector('#romUpload');
@@ -6,33 +7,12 @@ const fileUpload = document.querySelector('#romUpload');
 selectButton.addEventListener('click', () => fileUpload.click());
 fileUpload.addEventListener('change', processRoms, false);
 
-const uploadedFiles = {
+const uploadedRomFiles = {
     INVADERS_H: false,
     INVADERS_G: false,
     INVADERS_F: false,
     INVADERS_E: false,
 };
-
-/**
- * Asynchronously reads file selected by user into an
- * ArrayBuffer.
- * 
- * @param {File} file File to be read into ArrayBuffer
- * @returns {Promise} Promise object that represents file ArrayBuffer
- */
-function readRomAsync(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            resolve(reader.result);
-        };
-
-        reader.onerror = reject;
-
-        reader.readAsArrayBuffer(file);
-    })
-}
 
 /**
  * Reads ROM files selected in file input into unsigned
@@ -47,25 +27,29 @@ async function processRoms(e) {
 
     for (const file of files) {
         const name = file.name.replace('.', '_').toUpperCase();
-        const uploadStatus = uploadedFiles[name];
 
-        if (uploadStatus == true || uploadStatus == undefined)
-            continue;
+        const romStatus = uploadedRomFiles[name];
 
-        const data = new Uint8Array(await readRomAsync(file));
-
-        methods.LoadRom(name, data);
-
-        uploadedFiles[name] = true;
+        if (romStatus !== true && romStatus !== undefined) {
+            await processRomFile(name, file);
+        }
 
         updateList();
     }
 }
 
-function updateList() {
-    let allUploaded = true;
+async function processRomFile(name, file) {
+    const data = new Uint8Array(await readFileAsync(file));
 
-    for (const [key, value] of Object.entries(uploadedFiles)) {
+    methods.LoadRom(name, data);
+
+    uploadedRomFiles[name] = true;
+}
+
+function updateList() {
+    let romsUploaded = true;
+
+    for (const [key, value] of Object.entries(uploadedRomFiles)) {
         if (value) {
             const icon = document.querySelector(`#${key}_Status`);
 
@@ -73,11 +57,11 @@ function updateList() {
             icon.classList.add("bi-check-lg");
         }
         else {
-            allUploaded = false;
+            romsUploaded = false;
         }
     }
 
-    if (allUploaded) {
+    if (romsUploaded) {
         selectButton.style.display = 'none';
         
         methods.StartGame();

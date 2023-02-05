@@ -4,12 +4,17 @@ body {
 
 .container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 50%;
+    column-gap: normal;
+    grid-template-columns: repeat(2, minmax(200px, 0.15fr));
     margin: 0 auto;
+    place-content: center;
 }
 
 #romUpload {
+    display: none;
+}
+
+#soundUpload {
     display: none;
 }
 

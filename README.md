@@ -25,7 +25,7 @@ dotnet build
 ```
 
 ## Providing Game Files
-ROM files in the WASM port are selected by the user at runtime via upload dialog.
+ROM and sound files in the WASM port are selected by the user at runtime via upload dialog.
 
 The following ROM files need to be placed inside SpaceInvaders.OpenTK/Roms:
 - invaders.h
@@ -73,8 +73,6 @@ The port can also be ran on a local server by executing the following commands:
 cd SpaceInvaders.Web
 dotnet run
 ```
-
-**Note**: Audio support has not yet been implemented
 
 ## Useful Links / Resources
 - [Computer Archeology - Space Invaders](https://computerarcheology.com/Arcade/SpaceInvaders)

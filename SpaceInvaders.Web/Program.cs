@@ -1,4 +1,5 @@
 using SpaceInvaders.Core;
+using SpaceInvaders.Core.Ports.Output;
 using SpaceInvaders.Web;
 using System;
 using System.Runtime.InteropServices.JavaScript;
@@ -16,6 +17,7 @@ public partial class Program
         }
 
         await JSHost.ImportAsync("webgl", "./webgl.js");
+        await JSHost.ImportAsync("sound", "./sound.js");
 
         Console.WriteLine("Ready!");
     }
@@ -34,6 +36,8 @@ public partial class Program
     internal static void StartGame()
     {
         _machine.DisplayUpdated += TriggerUpdate;
+        _machine.SoundDevice.SoundChanged += PlaySound;
+        _machine.SoundDevice.UFOEnd += EndUFO;
         _machine.Run();
     }
 
@@ -57,5 +61,16 @@ public partial class Program
     [JSImport("updateTexture", "webgl")]
     internal static partial void _updateTexture(byte[] vram);
 
+    [JSImport("playSound", "sound")]
+    internal static partial void _playSound(int soundType);
+
+    [JSImport("endUFO", "sound")]
+    internal static partial void _endUFO();
+
+
     private static void TriggerUpdate(object sender, EventArgs e) => _updateTexture(_machine.Memory.ReadVRAM());
+
+    private static void PlaySound(object sender, SoundOutputChangeEventArgs e) => _playSound((int)e.Sound);
+
+    private static void EndUFO(object sender, EventArgs e) => _endUFO();
 }

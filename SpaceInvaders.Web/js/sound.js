@@ -149,16 +149,16 @@ function updateStatus() {
             soundsUploaded = false;
         }
         else {
-            const soundStatus = document.querySelector(`#Status_${key}`);
+            const statusIcon = document.querySelector(`#Status_${key}`);
 
-            if (soundStatus != null) {
-                soundStatus.remove();
+            if (statusIcon != null) {
+                statusIcon.classList.remove("bi-exclamation-diamond-fill", "warning");
+                statusIcon.classList.add("bi-check-lg", "success");
             }
         }
     }
 
     if (soundsUploaded) {
-        document.querySelector("#RequiredSounds").style.display = 'none';
         selectButton.style.display = 'none';
 
         init();

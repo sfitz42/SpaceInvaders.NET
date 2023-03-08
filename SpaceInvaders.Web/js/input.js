@@ -12,7 +12,11 @@ const keyMap = {
 function handleKey(event, pressed) {
     const key = event.key.replace("Arrow", "").toUpperCase();
 
-    methods.SetKey(keyMap[key], pressed);
+    const mappedEvent = keyMap[key];
+
+    if (mappedEvent !== undefined) {
+        methods.SetKey(keyMap[key], pressed);
+    }
 
     event.preventDefault();
 }

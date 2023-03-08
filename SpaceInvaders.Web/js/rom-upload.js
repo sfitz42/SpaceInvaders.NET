@@ -53,8 +53,8 @@ function updateList() {
         if (value) {
             const icon = document.querySelector(`#${key}_Status`);
 
-            icon.classList.remove("bi-exclamation-diamond-fill");
-            icon.classList.add("bi-check-lg");
+            icon.classList.remove("bi-exclamation-diamond-fill", "warning");
+            icon.classList.add("bi-check-lg", "success");
         }
         else {
             romsUploaded = false;

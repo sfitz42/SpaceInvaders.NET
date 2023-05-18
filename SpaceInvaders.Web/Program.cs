@@ -48,14 +48,16 @@ public partial class Program
         var port1Mapping = InputMappings.InputPort1Mapping;
         var port2Mapping = InputMappings.InputPort2Mapping;
 
+        var inputDevice = _machine.InputDevice;
+
         if (port0Mapping.ContainsKey(key))
-            _machine.InputPort0.HandleInput(port0Mapping[key], pressed);
+            inputDevice.InputPort0.HandleInput(port0Mapping[key], pressed);
 
         if (port1Mapping.ContainsKey(key))
-            _machine.InputPort1.HandleInput(port1Mapping[key], pressed);
+            inputDevice.InputPort1.HandleInput(port1Mapping[key], pressed);
 
         if (port2Mapping.ContainsKey(key))
-            _machine.InputPort2.HandleInput(port2Mapping[key], pressed);
+            inputDevice.InputPort2.HandleInput(port2Mapping[key], pressed);
     }
 
     [JSImport("updateTexture", "webgl")]

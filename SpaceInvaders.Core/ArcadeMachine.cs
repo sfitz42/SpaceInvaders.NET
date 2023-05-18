@@ -26,9 +26,7 @@ namespace SpaceInvaders.Core
 
         public MainMemory Memory { get; } = new();
 
-        public InputPort0 InputPort0 { get; } = new();
-        public InputPort1 InputPort1 { get; } = new();
-        public InputPort2 InputPort2 { get; } = new();
+        public InputDevice InputDevice { get; } = new();
 
         public SoundDevice SoundDevice { get; } = new();
 
@@ -50,23 +48,23 @@ namespace SpaceInvaders.Core
 
         public ArcadeMachine()
         {
-            Cpu = new(Memory);
+            Cpu = new CPU(Memory);
 
             Cpu.Reset();
 
-            _shiftOffset = new();
-            _shiftRegisterIn = new(_shiftOffset);
-            _shiftRegisterOutput = new(_shiftRegisterIn);
+            _shiftOffset = new ShiftOffset();
+            _shiftRegisterIn = new ShiftRegisterIn(_shiftOffset);
+            _shiftRegisterOutput = new ShiftRegisterOutput(_shiftRegisterIn);
 
             AddDevices();
 
-            _clock = new()
+            _clock = new Timer()
             {
                 Enabled = false,
                 Interval = 1
             };
 
-            _stopwatch = new();
+            _stopwatch = new Stopwatch();
 
             _clock.Elapsed += new ElapsedEventHandler(UpdateCPU);
         }
@@ -80,9 +78,9 @@ namespace SpaceInvaders.Core
         {
             var ioController = Cpu.IOController;
 
-            ioController.AddDevice(InputPort0, InputPort0.Port);
-            ioController.AddDevice(InputPort1, InputPort1.Port);
-            ioController.AddDevice(InputPort2, InputPort2.Port);
+            ioController.AddDevice(InputDevice.InputPort0, InputPort0.Port);
+            ioController.AddDevice(InputDevice.InputPort1, InputPort1.Port);
+            ioController.AddDevice(InputDevice.InputPort2, InputPort2.Port);
             ioController.AddDevice(_shiftRegisterIn, ShiftRegisterIn.Port);
 
             ioController.AddDevice(_shiftOffset, ShiftOffset.Port);

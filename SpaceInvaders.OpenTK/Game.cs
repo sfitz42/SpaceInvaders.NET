@@ -50,9 +50,11 @@ namespace SpaceInvaders.OpenTK
             if (state.IsKeyDown(Keys.Escape))
                 Close();
 
+            var inputDevice = _arcadeMachine.InputDevice;
+
             foreach (Keys key in InputMappings.InputPort0Mapping.Keys)
             {
-                var port = _arcadeMachine.InputPort0;
+                var port = inputDevice.InputPort0;
                 var value = InputMappings.InputPort0Mapping[key];
 
                 if (state.IsKeyDown(key))
@@ -63,7 +65,7 @@ namespace SpaceInvaders.OpenTK
 
             foreach (Keys key in InputMappings.InputPort1Mapping.Keys)
             {
-                var port = _arcadeMachine.InputPort1;
+                var port = inputDevice.InputPort1;
                 var value = InputMappings.InputPort1Mapping[key];
 
                 if (state.IsKeyDown(key))
@@ -74,7 +76,7 @@ namespace SpaceInvaders.OpenTK
 
             foreach (Keys key in InputMappings.InputPort2Mapping.Keys)
             {
-                var port = _arcadeMachine.InputPort2;
+                var port = inputDevice.InputPort2;
                 var value = InputMappings.InputPort2Mapping[key];
 
                 if (state.IsKeyDown(key))
